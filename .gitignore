@@ -12,6 +12,8 @@ dist
 dist-ssr
 *.local
 package-lock.json
+src/backend/__pycache__
+src/backend/pbo
 
 # Editor directories and files
 .vscode/*
