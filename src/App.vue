@@ -1,9 +1,20 @@
-<script setup>
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
+<template>
+  <div>
+  <navbar-element></navbar-element>
+  </div>
+  <div>
+  <router-view/>
+  </div>
+</template>
+
+<script>
+ import NavbarElement from "@/components/NavbarElement.vue";
+
+ export default {
+   components: {
+     NavbarElement
+   }
+ }
 </script>
 
-<template>
-  <router-view />
-</template>
 <style lang="scss"></style>
