@@ -2,6 +2,7 @@ create table if not exists posts (
     post_id integer primary key autoincrement,
     from_user integer,
     to_user integer,
+    faculty varchar(50),
     title text not null,
     content text not null,
     foreign key(from_user) references professor_lecturer(pl_id) on delete cascade,
@@ -21,4 +22,4 @@ insert into professor_lecturer values (null, 'Arnold Beck', 'Informatik');
 insert into professor_lecturer values (null, 'Kai Bruns', 'Informatik');
 insert into professor_lecturer values (null, 'Georg Freitag', 'Informatik');
 
-insert into posts values (null,2,null,'Krankmeldung','Leider muss die LV für heute absagen');
+insert into posts values (null,2,null,'Informatik','Krankmeldung','Leider muss die LV für heute absagen');
