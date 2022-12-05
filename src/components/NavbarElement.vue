@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
 </script>
 <template>
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #e3f2fd">
@@ -31,4 +31,38 @@
             </button>
         </div>
     </nav>
+</template> -->
+
+<template>
+  <TopNavBar />
+  <div class="row">
+    <!-- Side NavBar -->
+    <SideBarLeft />
+    <main class="col-8"><router-view /> Cards of Content</main>
+    <SideBarRight />
+  </div>
 </template>
+
+<script>
+// @ is an alias to /src
+import TopNavBar from "./TopNavBar.vue";
+import SideBarLeft from "./SideBarLeft.vue";
+import SideBarRight from "./SideBarRight.vue";
+
+export default {
+  name: "HomeView",
+  components: {
+    TopNavBar,
+    SideBarLeft,
+    SideBarRight,
+  },
+};
+</script>
+
+<style scoped>
+row {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+</style>
