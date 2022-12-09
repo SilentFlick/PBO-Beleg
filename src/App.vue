@@ -1,62 +1,50 @@
 <template>
-    <div id="app">
-        <section class="main-navbar-section">
-            <div class="container">
-                <navbar-element></navbar-element>
-            </div>
-        </section>
-        <section class="main-content-section">
-            <div class="container">
-                <router-view/>
-            </div>
-        </section>
-    </div>
+  <div>
+    <section class="main-navbar-section">
+      <NavbarElement></NavbarElement>
+    </section>
+    <section class="main-content-section">
+      <div class="container"></div>
+    </section>
+  </div>
 </template>
 
 <script>
- import NavbarElement from "@/components/NavbarElement.vue";
+import NavbarElement from "@/components/NavbarElement.vue";
 
- export default {
-     components: {
-         NavbarElement
-     }
- }
+export default {
+  components: {
+    NavbarElement,
+  },
+};
 </script>
 
 <style lang="scss">
- html {
-     width: 100%;
-     font-size: 18px;
-     color: #333;
- }
+html {
+  width: 100%;
+  font-size: 18px;
+  color: #333;
+}
 
- body {
-     margin: 0;
-     padding-top: 3%;
-     height: 100%;
-     height: 100vh;
-     width: 100%;
-     font-family: sans-serif;
- }
+body {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  font-family: sans-serif;
+}
 
- #app {
-     height: 100%;
-     height: 100vh;
-     width: 100%;
-     line-height: 1.5;
- }
+#app {
+  height: 100%;
+  width: 100%;
+  line-height: 1.5;
+}
 
- .main-content-section {
-     min-height: 100%;
- }
+.main-content-section {
+  min-height: 100%;
+}
 
- .main-navbar-section {
-     z-index:1;
-     width:100%;
-     height:50px;
-     text-align:center;
-     vertical-align:middle;
-     line-height:50px;
-     top:0px;
- }
+.main-navbar-section {
+  z-index: 1;
+  width: 100%;
+}
 </style>
