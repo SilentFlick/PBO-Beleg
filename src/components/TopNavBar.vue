@@ -14,10 +14,25 @@
         />
       </form>
 
-      <button class="btn btn-info btn-lg" type="button">Login</button>
+      <button
+        type="button"
+        class="btn btn-info"
+        data-bs-toggle="modal"
+        data-bs-target="#login"
+      >
+        Login
+      </button>
     </nav>
   </header>
 </template>
+
+<script>
+import Login from "@/components/Login.vue";
+export default {
+  components: { Login },
+};
+</script>
+
 <style scoped>
 header {
   margin: 0;

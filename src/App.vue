@@ -1,20 +1,23 @@
 <template>
   <div>
     <section class="main-navbar-section">
-      <NavbarElement></NavbarElement>
+      <NavbarElement />
     </section>
     <section class="main-content-section">
       <div class="container"></div>
     </section>
+    <Login />
   </div>
 </template>
 
 <script>
 import NavbarElement from "@/components/NavbarElement.vue";
+import Login from "@/components/Login.vue";
 
 export default {
   components: {
     NavbarElement,
+    Login,
   },
 };
 </script>
