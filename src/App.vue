@@ -6,19 +6,34 @@
     <section class="main-content-section">
       <div class="container"></div>
     </section>
-    <Login />
+    <Login @isLogin="loginHandle"/>
   </div>
 </template>
 
 <script>
 import NavbarElement from "@/components/NavbarElement.vue";
 import Login from "@/components/Login.vue";
+import { computed } from '@vue/runtime-core';
 
 export default {
+  name : "App",
   components: {
     NavbarElement,
     Login,
   },
+  data(){
+    return{
+      isLogin : false
+  }},
+  methods:{
+    loginHandle(){
+      this.isLogin = true;
+    }
+  },
+  provide(){
+    return {
+      "loginStatus" : computed(()=>this.isLogin)
+  }}
 };
 </script>
 

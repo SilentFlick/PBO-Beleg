@@ -19,22 +19,24 @@
             ></button>
           </div>
           <div class="modal-body">
-            <form>
+            <form >
               <!-- Email input -->
-              <div class="form-outline mb-3">
+              <div class="form-group mb-3">
                 <input
-                  type="email"
                   class="form-control"
                   placeholder="Bibliotheknummer"
+                  v-model="loginValue.username"
                 />
               </div>
 
               <!-- Password input -->
-              <div class="form-outline mb-3">
+              <div class="form-group mb-3">
                 <input
                   type="password"
                   class="form-control"
                   placeholder="Passwort"
+                  @keyup.enter="loginHandle"
+                  v-model="loginValue.password"
                 />
               </div>
 
@@ -60,7 +62,7 @@
                 >
                   Close
                 </button>
-                <button type="button" class="btn btn-primary">Login</button>
+                <button @click="loginHandle" type="button" class="btn btn-primary"  >Login</button>
               </div>
             </form>
           </div>
@@ -71,8 +73,33 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "Login",
+  emits : ['isLogin'],
   props: { msg: String },
+  data(){
+    return {
+      loginValue : {
+        "username" : "",
+        "password" : ""
+      },
+      isLogin : false
+    }
+  },
+  methods:{
+    loginHandle(){
+      axios.post("http://0.0.0.0:8000/login",this.loginValue)
+      .then(res => {
+        if(res.data !== null){
+          $('#login').modal('hide');
+          this.$emit('isLogin')
+        }else{
+          alert("Failed to authenticate")
+        }
+      })
+      .catch(err => console.log(err))
+    }
+  }
 };
 </script>
