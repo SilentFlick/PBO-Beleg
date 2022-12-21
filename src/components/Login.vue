@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import {sendRequest} from "../api/sendRequest"
 export default {
   name: "Login",
   emits : ['isLogin'],
@@ -89,17 +89,14 @@ export default {
   },
   methods:{
     loginHandle(){
-      axios.post("http://0.0.0.0:8000/login",this.loginValue)
-      .then(res => {
-        if(res.data !== null){
+    const result =  sendRequest("POST","http://localhost:8000/login",JSON.stringify(this.loginValue))
+    if(result !== null){
           $('#login').modal('hide');
           this.$emit('isLogin')
         }else{
           alert("Failed to authenticate")
         }
-      })
-      .catch(err => console.log(err))
-    }
+  }
   }
 };
 </script>
