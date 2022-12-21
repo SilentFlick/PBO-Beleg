@@ -1,10 +1,11 @@
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 import json
 import server
 
 
 app = Flask(__name__)
-
+CORS(app)
 
 @app.route("/posts", methods=["GET"])
 def get_posts():
@@ -51,11 +52,11 @@ def delete_post(id):
 
 @app.route("/login", methods=["POST"])
 def login():
-    data = json.loads(request.get_data(), strict=False)
+    data = json.loads(request.get_data(), strict=False)    
     username = data["username"]
     password = data["password"]
     result = server.authenticate(username, password)
-    return jsonify(result)
+    return jsonify( result)
 
 
 if __name__ == "__main__":
