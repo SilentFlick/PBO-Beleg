@@ -34,12 +34,13 @@
 </template> -->
 
 <template>
-  <TopNavBar />
-  <div class="row">
-    <!-- Side NavBar -->
-    <SideBarLeft />
-    <main class="col-8"><router-view /> Cards of Content</main>
-    <SideBarRight />
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Side NavBar -->
+      <TopNavBar />
+      <SideBarLeft />
+      <main class="col-8"><router-view /> Cards of Content</main>
+    </div>
   </div>
 </template>
 
