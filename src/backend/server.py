@@ -39,6 +39,7 @@ def insert_prof_to_db(name, faculty):
     statement = "insert into professor_lecturer values (null, ?, ?)"
     cursor.execute(statement, [name, faculty])
     db.commit()
+    db.close()
     return True
 
 
@@ -48,6 +49,7 @@ def insert_post_to_db(from_user, to_user, title, content):
     statement = "insert into posts values (null, ?, ?, ?, ?)"
     cursor.execute(statement, [from_user, to_user, title, content])
     db.commit()
+    db.close()
     return True
 
 
@@ -57,6 +59,7 @@ def update_post_to_db(id, from_user, to_user, title, content):
     statement = "update posts set from_user = ?, to_user = ?, title = ?, content = ? where post_id = ?"
     cursor.execute(statement, [from_user, to_user, title, content, id])
     db.commit()
+    db.close()
     return True
 
 
@@ -66,6 +69,7 @@ def delete_post_from_db(id):
     statement = "delete from posts where post_id = ?"
     cursor.execute(statement, [id])
     db.commit()
+    db.close()
     return True
 
 
@@ -75,7 +79,12 @@ def get_posts_from_db():
     statement = "select post_id, from_user, to_user,  title, content from posts"
     cursor.execute(statement)
     db.commit()
-    return cursor.fetchall()
+    r = [
+        dict((cursor.description[i][0], value) for i, value in enumerate(row))
+        for row in cursor.fetchall()
+    ]
+    db.close()
+    return r if r else None
 
 
 def get_posts_by_id_from_db(id):
@@ -84,4 +93,9 @@ def get_posts_by_id_from_db(id):
     statement = "select post_id, from_user, to_user,  title, content from posts where post_id = ?"
     cursor.execute(statement, [id])
     db.commit()
-    return cursor.fetchall()
+    r = [
+        dict((cursor.description[i][0], value) for i, value in enumerate(row))
+        for row in cursor.fetchall()
+    ]
+    db.close()
+    return r[0] if r else None
