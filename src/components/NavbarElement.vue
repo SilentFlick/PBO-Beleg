@@ -47,14 +47,12 @@
 // @ is an alias to /src
 import TopNavBar from "./TopNavBar.vue";
 import SideBarLeft from "./SideBarLeft.vue";
-import SideBarRight from "./SideBarRight.vue";
 
 export default {
   name: "HomeView",
   components: {
     TopNavBar,
     SideBarLeft,
-    SideBarRight,
   },
 };
 </script>
