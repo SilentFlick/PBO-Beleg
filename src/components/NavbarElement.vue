@@ -64,4 +64,15 @@ row {
   padding: 0;
   width: 100%;
 }
+
+body {
+  position: relative;
+  height: auto;
+  min-height: 100vh;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  overflow: hidden;
+  margin: 0;
+}
 </style>

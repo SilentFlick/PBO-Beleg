@@ -1,10 +1,11 @@
-<script setup></script>
-
 <template>
   <!-- Top NavBar -->
-  <header class="navbar sticky-top">
+  <header class="navbar navbar-expand topbar mb-4 shadow">
     <nav class="d-flex justify-content-between align-items-center">
-      <a class="navbar-brand">HTW Shits Talk</a>
+      <button class="btn" id="burgerMenu" @click="toggleSidebar">
+        <i class="bi bi-list"></i>
+      </button>
+      <a class="navbar-brand" style="color: white">HTW Shits Talk</a>
       <form class="" role="search">
         <input
           class="form-control"
@@ -30,39 +31,72 @@
 </template>
 
 <script>
-export default {
-  name: "TopNavBar",
-  inject: ['loginStatus'],
-  data(){
-    return{
-      isLogin : this.loginStatus
-    }
-  }
-  
-  
-};
-
+import FAQ from "../views/FAQ.vue";
+ export default {
+  components: { FAQ },
+   name: "TopNavBar",
+   inject: ['loginStatus'],
+   data(){
+     return{
+       isLogin : this.loginStatus
+     }
+   },
+   methods:{
+     toggleSidebar(){
+       var sidebar = document.getElementById("sidebarLeft");
+       if(sidebar.style.display === "inline-flex") {
+         sidebar.style.display = "none";
+       } else {
+         sidebar.style.display = "inline-flex";
+       }
+     }
+   }
+ };
 </script>
 
 <style scoped>
-header {
-  margin: 0;
-  padding: 0 30px;
-  width: 100%;
-  background-color: #f99b1c;
-}
-nav {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-button {
-  padding: 10px 30px;
-}
-.form-control {
-  margin: 10px;
-  width: 500px;
-  height: 50px;
-}
+ header {
+   margin: 0px;
+   padding: 0px 30px;
+   width: 100%;
+   height: 100%;
+   background-size: 100% 100%;
+   background: rgb(41,21,56);
+   background: linear-gradient(146deg, rgba(41,21,56,1) 51%, rgba(172,113,49,1) 73%);
+ }
+
+ nav {
+   width: 100%;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+ }
+
+ button {
+   padding: 10px 30px;
+ }
+
+ .form-control {
+   margin: 10px;
+   width: 500px;
+   height: 50px;
+ }
+
+ #burgerMenu {
+   display: none;
+ }
+
+ @media screen and (max-width: 600px) {
+   #burgerMenu {
+     background-color: none;
+     display: block;
+   }
+ }
+
+ @media screen and (max-width: 900px) {
+   #burgerMenu {
+     background-color: none;
+     display: block;
+   }
+ }
 </style>
