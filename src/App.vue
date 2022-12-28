@@ -23,16 +23,17 @@ export default {
   },
   data(){
     return{
-      isLogin : false
+      isLogin : (document.cookie.indexOf('username') !== -1 && document.cookie.valueOf('username').split('=')[1].length !== 0)
   }},
   methods:{
     loginHandle(){
-      this.isLogin = true;
+      this.isLogin = (document.cookie.valueOf('username').split('=')[1].length !== 0);
     }
   },
   provide(){
     return {
-      "loginStatus" : computed(()=>this.isLogin)
+      "loginStatus" : computed(()=>this.isLogin),
+      "loginHandle": this.loginHandle,
   }}
 };
 </script>

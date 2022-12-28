@@ -23,6 +23,7 @@
               <!-- Email input -->
               <div class="form-group mb-3">
                 <input
+                  id="input-usernamer"
                   class="form-control"
                   placeholder="Bibliotheknummer"
                   v-model="loginValue.username"
@@ -35,10 +36,10 @@
                   type="password"
                   class="form-control"
                   placeholder="Passwort"
-                  @keyup.enter="loginHandle"
                   v-model="loginValue.password"
                 />
               </div>
+              <p id="error" class="mb-3" style="display: none; color: red;">Failed to authenticate. Invalid credential</p>
 
               <!-- 2 column grid layout for inline styling -->
               <div class="row mb-3">
@@ -73,30 +74,33 @@
 </template>
 
 <script>
-import {sendRequest} from "../api/sendRequest"
-export default {
-  name: "Login",
-  emits : ['isLogin'],
-  props: { msg: String },
-  data(){
-    return {
-      loginValue : {
-        "username" : "",
-        "password" : ""
-      },
-      isLogin : false
-    }
-  },
-  methods:{
-    loginHandle(){
-    const result =  sendRequest("POST","http://localhost:8000/login",JSON.stringify(this.loginValue))
-    if(result !== null){
-          $('#login').modal('hide');
-          this.$emit('isLogin')
-        }else{
-          alert("Failed to authenticate")
-        }
-  }
-  }
-};
+ import {sendRequest} from "../api/sendRequest"
+ export default {
+   name: "Login",
+   emits : ['isLogin'],
+   props: { msg: String },
+   data(){
+     return {
+       loginValue : {
+         "username" : "",
+         "password" : ""
+       },
+     }
+   },
+   methods:{
+     loginHandle(){
+       sendRequest("POST","http://localhost:8000/login",JSON.stringify(this.loginValue)).then(result => {
+         if(result !== null && result !== undefined){
+           $('#login').modal('hide');
+           document.getElementById('error').style.display = 'none';
+           document.cookie = "username=" + this.loginValue.username + ";SameSite=Strict;Secure";
+           this.$emit('isLogin', true);
+         }else{
+           document.getElementById('error').style.display = 'inline-block';
+           this.$emit('isLogin', false);
+         }
+       });
+     }
+   }
+ };
 </script>
