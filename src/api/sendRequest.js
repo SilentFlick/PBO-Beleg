@@ -1,17 +1,19 @@
 export const sendRequest = (requestType, requestURL, data) => {
-    const xhr = new XMLHttpRequest();
+    var xhr = new XMLHttpRequest();
 
-    xhr.open(requestType,requestURL);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    
-    xhr.responseType = "json";
-    xhr.addEventListener("readystatechange", ()=>{
-        if(xhr.readyState === xhr.DONE){
-            return(xhr.response);
-        }
-    })
-    
-    xhr.send(data);
+    return new Promise((resolve, reject) => {
+        xhr.onreadystatechange = (e) => {
+            if (xhr.readyState !== 4) {
+                return;
+            }
 
-
+            if (xhr.status === 200) {
+                resolve(JSON.parse(xhr.responseText));
+            } else {
+                console.log('request_error');
+            }
+        };
+        xhr.open(requestType, requestURL);
+        xhr.send(data);
+    });
 }
