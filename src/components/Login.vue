@@ -19,7 +19,7 @@
             ></button>
           </div>
           <div class="modal-body">
-            <form >
+            <form>
               <!-- Email input -->
               <div class="form-group mb-3">
                 <input
@@ -39,7 +39,9 @@
                   v-model="loginValue.password"
                 />
               </div>
-              <p id="error" class="mb-3" style="display: none; color: red;">Failed to authenticate. Invalid credential</p>
+              <p id="error" class="mb-3" style="display: none; color: red">
+                Failed to authenticate. <br />Invalid credential
+              </p>
 
               <!-- 2 column grid layout for inline styling -->
               <div class="row mb-3">
@@ -63,7 +65,13 @@
                 >
                   Close
                 </button>
-                <button @click="loginHandle" type="button" class="btn btn-primary"  >Login</button>
+                <button
+                  @click="loginHandle"
+                  type="button"
+                  class="btn btn-primary"
+                >
+                  Login
+                </button>
               </div>
             </form>
           </div>
@@ -74,33 +82,38 @@
 </template>
 
 <script>
- import {sendRequest} from "../api/sendRequest"
- export default {
-   name: "Login",
-   emits : ['isLogin'],
-   props: { msg: String },
-   data(){
-     return {
-       loginValue : {
-         "username" : "",
-         "password" : ""
-       },
-     }
-   },
-   methods:{
-     loginHandle(){
-       sendRequest("POST","http://localhost:8000/login",JSON.stringify(this.loginValue)).then(result => {
-         if(result !== null && result !== undefined){
-           $('#login').modal('hide');
-           document.getElementById('error').style.display = 'none';
-           document.cookie = "username=" + this.loginValue.username + ";SameSite=Strict;Secure";
-           this.$emit('isLogin', true);
-         }else{
-           document.getElementById('error').style.display = 'inline-block';
-           this.$emit('isLogin', false);
-         }
-       });
-     }
-   }
- };
+import { sendRequest } from "../api/sendRequest";
+export default {
+  name: "Login",
+  emits: ["isLogin"],
+  props: { msg: String },
+  data() {
+    return {
+      loginValue: {
+        username: "",
+        password: "",
+      },
+    };
+  },
+  methods: {
+    loginHandle() {
+      sendRequest("POST", "login", JSON.stringify(this.loginValue)).then(
+        (result) => {
+          if (result !== null && result !== undefined) {
+            $("#login").modal("hide");
+            document.getElementById("error").style.display = "none";
+            document.cookie =
+              "username=" +
+              this.loginValue.username +
+              ";SameSite=Strict;Secure";
+            this.$emit("isLogin", true);
+          } else {
+            document.getElementById("error").style.display = "inline-block";
+            this.$emit("isLogin", false);
+          }
+        }
+      );
+    },
+  },
+};
 </script>

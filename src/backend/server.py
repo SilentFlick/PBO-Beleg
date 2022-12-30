@@ -76,7 +76,7 @@ def delete_post_from_db(id):
 def get_posts_from_db():
     db = get_db()
     cursor = db.cursor()
-    statement = "select post_id, from_user, to_user,  title, content from posts"
+    statement = "select post_id, from_user, to_user, p.faculty, title, content, created_at, name from posts p left join professor_lecturer l on from_user=pl_id"
     cursor.execute(statement)
     db.commit()
     r = [

@@ -38,9 +38,7 @@
 </template>
 
 <script>
- import FAQ from "../views/FAQ.vue";
  export default {
-     components: { FAQ },
      name: "TopNavBar",
      inject: ['loginStatus', 'loginHandle'],
      data() {
