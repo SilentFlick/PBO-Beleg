@@ -6,7 +6,7 @@
           class="col-9"
           style="padding-right: 20px; border-right: 1px solid #ccc"
         >
-          {{ getUsername() }}
+          {{ getUsername }}
         </div>
         <div class="col-3">{{ faculty }}</div>
       </div>
@@ -17,7 +17,7 @@
         {{ fullContent() }}
         <span v-if="isExpanded === false && content.length > 100">
           ...
-          <span class="underline-text" @click="expandHandle">
+          <span class="underline-text" @click="seeMoreHandle">
             See more</span
           ></span
         >
@@ -25,27 +25,60 @@
         <span
           v-if="isExpanded === true"
           class="underline-text"
-          @click="collapseHandle"
+          @click="seeLessHandle"
         >
           See less</span
         >
       </p>
-      <div class="text-end">{{ getTimesAgo() }}</div>
+      <div class="text-end">{{ getTimesAgo }}</div>
 
-      <hr />
-      <footer class=""></footer>
+      <footer class="card-footer">
+        <div
+          class="btn-group row w-100 m-auto"
+          role="group"
+          aria-label="Basic example"
+        >
+          <button type="button" class="btn btn-outline-secondary col-6">
+            Like
+          </button>
+          <button
+            @click="commentToggle"
+            type="button"
+            class="btn btn-outline-secondary col-6"
+            data-bs-toggle="collapse"
+            aria-expanded="false"
+          >
+            Comment
+          </button>
+          <div v-if="isCommenting">
+            <Comment
+              v-for="comment in getComments"
+              :key="comment.comment_id"
+              :comment="comment"
+            />
+            <input
+              type="text"
+              class="form-control mt-2"
+              placeholder="Write a comment..."
+            />
+          </div>
+        </div>
+      </footer>
     </div>
   </div>
 </template>
 
 <script>
+import Comment from "./Comment.vue";
 import getTimesAgo from "../utils/getTimesAgo.js";
 import getRandomName from "../utils/getRandomName.js";
 export default {
   name: "Card",
+  components: { Comment },
   data() {
     return {
       isExpanded: false,
+      isCommenting: false,
     };
   },
   methods: {
@@ -59,12 +92,18 @@ export default {
         return this.content.slice(0, 100);
       }
     },
-    expandHandle() {
+    seeMoreHandle() {
       this.isExpanded = true;
     },
-    collapseHandle() {
+    seeLessHandle() {
       this.isExpanded = false;
     },
+    commentToggle() {
+      this.isCommenting = !this.isCommenting;
+    },
+  },
+
+  computed: {
     getTimesAgo() {
       return getTimesAgo(this.created_at);
     },
@@ -75,7 +114,11 @@ export default {
         return this.username;
       }
     },
+    getComments() {
+      return (this.comment && JSON.parse(this.comments[0].comments)) || [];
+    },
   },
+
   props: {
     postID: Number,
     username: String | null,
@@ -83,6 +126,7 @@ export default {
     title: String,
     content: String,
     created_at: String,
+    comments: Array,
   },
 };
 </script>

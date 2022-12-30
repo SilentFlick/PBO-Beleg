@@ -49,6 +49,11 @@ def delete_post(id):
     result = server.delete_post_from_db(id)
     return jsonify(result)
 
+@app.route("/comments", methods=["GET"])
+def get_comments():
+    comments = server.get_comments_from_db()
+    return jsonify(comments)
+
 
 @app.route("/login", methods=["POST"])
 def login():

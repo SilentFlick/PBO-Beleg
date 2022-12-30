@@ -14,11 +14,13 @@
         created_at,
       } in posts"
       :key="post_id"
+      :postID="post_id"
       :username="name"
       :faculty="faculty"
       :content="content"
       :title="title"
       :created_at="created_at"
+      :comments="comments.filter((comment) => comment.post_id === post_id)"
     />
   </div>
 </template>
@@ -35,6 +37,7 @@ export default {
   data() {
     return {
       posts: [],
+      comments: [],
     };
   },
 
@@ -46,10 +49,18 @@ export default {
         }
       ));
     },
+    getComments: async function () {
+      return (this.comments = await sendRequest("GET", "comments", null).then(
+        (res) => {
+          return res;
+        }
+      ));
+    },
   },
 
   created() {
     this.getPosts();
+    this.getComments();
   },
 };
 </script>
