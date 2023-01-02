@@ -115,7 +115,9 @@ export default {
       }
     },
     getComments() {
-      return (this.comment && JSON.parse(this.comments[0].comments)) || [];
+      return this.comments.length > 0
+        ? JSON.parse(this.comments[0].comments)
+        : [];
     },
   },
 
