@@ -6,35 +6,40 @@
     <section class="main-content-section">
       <div class="container"></div>
     </section>
-    <Login @isLogin="loginHandle"/>
+    <Login @isLogin="loginHandle" />
   </div>
 </template>
 
 <script>
 import NavbarElement from "@/components/NavbarElement.vue";
 import Login from "@/components/Login.vue";
-import { computed } from '@vue/runtime-core';
+import { computed } from "@vue/runtime-core";
 
 export default {
-  name : "App",
+  name: "App",
   components: {
     NavbarElement,
     Login,
   },
-  data(){
-    return{
-      isLogin : (document.cookie.indexOf('username') !== -1 && document.cookie.valueOf('username').split('=')[1].length !== 0)
-  }},
-  methods:{
-    loginHandle(){
-      this.isLogin = (document.cookie.valueOf('username').split('=')[1].length !== 0);
-    }
-  },
-  provide(){
+  data() {
     return {
-      "loginStatus" : computed(()=>this.isLogin),
-      "loginHandle": this.loginHandle,
-  }}
+      isLogin:
+        document.cookie.indexOf("username") !== -1 &&
+        document.cookie.valueOf("username").split("=")[1].length !== 0,
+    };
+  },
+  methods: {
+    loginHandle() {
+      this.isLogin =
+        document.cookie.valueOf("username").split("=")[1].length !== 0;
+    },
+  },
+  provide() {
+    return {
+      loginStatus: computed(() => this.isLogin),
+      loginHandle: this.loginHandle,
+    };
+  },
 };
 </script>
 
@@ -56,10 +61,9 @@ body {
   height: 100%;
   width: 100%;
   line-height: 1.5;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
 }
 

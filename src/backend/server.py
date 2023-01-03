@@ -76,7 +76,7 @@ def delete_post_from_db(id):
 def get_posts_from_db():
     db = get_db()
     cursor = db.cursor()
-    statement = "select post_id, from_user, to_user,  title, content from posts"
+    statement = "select post_id, from_user, to_user, p.faculty, title, content, created_at, name from posts p left join professor_lecturer l on from_user=pl_id"
     cursor.execute(statement)
     db.commit()
     r = [
@@ -99,3 +99,16 @@ def get_posts_by_id_from_db(id):
     ]
     db.close()
     return r[0] if r else None
+
+def get_comments_from_db() :
+    db = get_db()
+    cursor = db.cursor()
+    statement = "select post_id,json_group_array(json_object('comment_id',comment_id, 'comment',comment, 'created_at', created_at, 'from_user' , from_user)) as comments from comments group by post_id"
+    cursor.execute(statement)
+    db.commit()
+    r = [
+        dict((cursor.description[i][0], value) for i, value in enumerate(row))
+        for row in cursor.fetchall()
+    ]
+    db.close()
+    return r if r else None
