@@ -103,7 +103,7 @@ def get_posts_by_id_from_db(id):
 def get_comments_from_db() :
     db = get_db()
     cursor = db.cursor()
-    statement = "select post_id,json_group_array(json_object('comment_id',comment_id, 'comment',comment, 'created_at', created_at, 'from_user' , from_user)) as comments from comments group by post_id"
+    statement = "select post_id,json_group_array(json_object('comment_id',comment_id, 'comment',comment, 'created_at', created_at, 'from_user' , (select name from comments ci left join professor_lecturer on from_user=pl_id where ci.comment_id=co.comment_id ))) as comments from comments co group by post_id"
     cursor.execute(statement)
     db.commit()
     r = [
@@ -112,3 +112,12 @@ def get_comments_from_db() :
     ]
     db.close()
     return r if r else None
+
+def insert_comment_to_db(post_id, comment):
+    db = get_db()
+    cursor = db.cursor()
+    statement = "insert into comments(comment_id, post_id, from_user, comment) values (null, ?,null, ?)"
+    cursor.execute(statement, [post_id, comment])
+    db.commit()
+    db.close()
+    return True

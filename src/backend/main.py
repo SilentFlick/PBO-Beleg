@@ -54,6 +54,15 @@ def get_comments():
     comments = server.get_comments_from_db()
     return jsonify(comments)
 
+@app.route("/comments", methods=["POST"])
+def insert_comment():
+    data = json.loads(request.data, strict=False)
+    print("==>",data)
+    post_id = data["post_id"]
+    comment = data["comment"]
+    result = server.insert_comment_to_db(post_id, comment)
+    return jsonify(result)
+
 
 @app.route("/login", methods=["POST"])
 def login():
