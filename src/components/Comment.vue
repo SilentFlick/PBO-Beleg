@@ -1,9 +1,9 @@
 <template>
-  <div class="card border-secondary mx-auto w-100">
+  <div class="card border-secondary mt-3 mx-auto w-100">
     <div class="card-header">
       <div class="card-title">{{ getUsername }} - {{ getTimesAgo }}</div>
     </div>
-    <div class="card-body text-secondary h-auto">
+    <div class="card-body text-secondary m-0 p-0">
       <p class="card-text">
         {{ comment.comment }}
       </p>

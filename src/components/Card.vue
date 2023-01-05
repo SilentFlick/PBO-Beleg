@@ -50,18 +50,53 @@
           >
             Comment
           </button>
-          <div v-if="isCommenting">
-            <Comment
-              v-for="comment in getComments"
-              :key="comment.comment_id"
-              :comment="comment"
-            />
-            <input
+        </div>
+        <div v-if="isCommenting">
+          <div v-if="isLogin" class="input-group mt-3">
+            <textarea
+              id="comment"
               type="text"
-              class="form-control mt-2"
+              class="form-control"
               placeholder="Write a comment..."
-            />
+              aria-label="Write a comment..."
+              aria-describedby="button-addon2"
+              @keyup.enter="commentHandle()"
+            ></textarea>
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              id="button-addon2"
+              @click="commentHandle()"
+            >
+              <i class="bi bi-send"></i>
+            </button>
           </div>
+
+          <div
+            v-else
+            class="d-flex justify-content-center align-items-center mt-3"
+          >
+            <div>Wanna write a comment?</div>
+            <div>
+              <a
+                class="text-decoration-none"
+                href="#login"
+                data-bs-toggle="modal"
+                data-bs-target="#login"
+              >
+                &nbsp; Login here!
+              </a>
+            </div>
+          </div>
+          <Comment
+            v-for="comment in getComments.sort(
+              (a, b) =>
+                new Date(b.created_at).getTime() -
+                new Date(a.created_at).getTime()
+            )"
+            :key="comment.comment_id"
+            :comment="comment"
+          />
         </div>
       </footer>
     </div>
@@ -70,15 +105,19 @@
 
 <script>
 import Comment from "./Comment.vue";
+import { sendRequest } from "../api/sendRequest.js";
 import getTimesAgo from "../utils/getTimesAgo.js";
 import getRandomName from "../utils/getRandomName.js";
 export default {
   name: "Card",
   components: { Comment },
+  inject: ["loginStatus"],
   data() {
     return {
+      comment: "",
       isExpanded: false,
       isCommenting: false,
+      isLogin: this.loginStatus,
     };
   },
   methods: {
@@ -100,6 +139,38 @@ export default {
     },
     commentToggle() {
       this.isCommenting = !this.isCommenting;
+    },
+    commentHandle() {
+      if ($("#comment").val() === "") {
+        console.log("Comment is empty");
+        return;
+      }
+      //get comment from input
+      this.comment = $("#comment").val();
+
+      //add comment string to comments array for rendering comment without refreshing page
+      this.comments[0].comments = JSON.stringify([
+        ...this.getComments,
+        {
+          comment: this.comment,
+          from_user: null,
+          created_at: new Date().toISOString().slice(0, 19).replace("T", " "),
+        },
+      ]);
+      const comment = {
+        post_id: this.postID,
+        comment: this.comment,
+      };
+      sendRequest(
+        "POST",
+        "comments",
+        JSON.stringify(comment),
+
+        (res) => {
+          console.log(res);
+        }
+      );
+      $("#comment").val("");
     },
   },
 
