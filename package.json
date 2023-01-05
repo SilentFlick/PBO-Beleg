@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.11.6",
+    "@syncfusion/ej2-vue-dropdowns": "^20.4.40",
     "bootstrap": "^5.2.3",
+    "ejs": "^3.1.8",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6",
     "vuex": "^4.1.0"

@@ -63,7 +63,6 @@ def insert_comment():
     result = server.insert_comment_to_db(post_id, comment)
     return jsonify(result)
 
-
 @app.route("/login", methods=["POST"])
 def login():
     data = json.loads(request.get_data(), strict=False)    
