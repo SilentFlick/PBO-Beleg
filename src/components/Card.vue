@@ -112,12 +112,22 @@ export default {
   name: "Card",
   components: { Comment },
   inject: ["loginStatus"],
+  props: {
+    postID: Number,
+    username: String | null,
+    faculty: String,
+    title: String,
+    content: String,
+    created_at: String,
+    comments: Array,
+  },
   data() {
     return {
       comment: "",
       isExpanded: false,
       isCommenting: false,
       isLogin: this.loginStatus,
+      trigger: 0,
     };
   },
   methods: {
@@ -142,21 +152,13 @@ export default {
     },
     commentHandle() {
       if ($("#comment").val() === "") {
-        console.log("Comment is empty");
+        alert("Comment is empty");
         return;
       }
       //get comment from input
       this.comment = $("#comment").val();
-
       //add comment string to comments array for rendering comment without refreshing page
-      this.comments[0].comments = JSON.stringify([
-        ...this.getComments,
-        {
-          comment: this.comment,
-          from_user: null,
-          created_at: new Date().toISOString().slice(0, 19).replace("T", " "),
-        },
-      ]);
+      this.updateComments();
       const comment = {
         post_id: this.postID,
         comment: this.comment,
@@ -172,6 +174,36 @@ export default {
       );
       $("#comment").val("");
     },
+    async updateComments() {
+      this.trigger++;
+
+      if (this.comments.length > 0) {
+        this.comments[0].comments = JSON.stringify([
+          ...this.getComments,
+          {
+            comment: this.comment,
+            from_user: null,
+            created_at: new Date().toISOString().slice(0, 19).replace("T", " "),
+          },
+        ]);
+
+        return this.comments[0].comments;
+      } else {
+        this.comments[0] = {
+          comments: JSON.stringify([
+            {
+              comment: this.comment,
+              from_user: null,
+              created_at: new Date()
+                .toISOString()
+                .slice(0, 19)
+                .replace("T", " "),
+            },
+          ]),
+        };
+        return this.comments[0].comments;
+      }
+    },
   },
 
   computed: {
@@ -186,20 +218,14 @@ export default {
       }
     },
     getComments() {
-      return this.comments.length > 0
-        ? JSON.parse(this.comments[0].comments)
-        : [];
-    },
-  },
+      this.trigger;
 
-  props: {
-    postID: Number,
-    username: String | null,
-    faculty: String,
-    title: String,
-    content: String,
-    created_at: String,
-    comments: Array,
+      if (this.comments.length === 0) {
+        return [];
+      }
+      console.log(JSON.parse(this.comments[0].comments));
+      return JSON.parse(this.comments[0].comments);
+    },
   },
 };
 </script>

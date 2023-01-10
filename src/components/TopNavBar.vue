@@ -7,12 +7,7 @@
       </button>
       <a class="navbar-brand" style="color: white">HTW Shits Talk</a>
       <form class="" role="search">
-        <input
-          class="form-control"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
+        <Search />
       </form>
 
       <button
@@ -33,8 +28,12 @@
 </template>
 
 <script>
+import Search from "./Search.vue";
 export default {
   name: "TopNavBar",
+  components: {
+    Search,
+  },
   inject: ["loginStatus", "loginHandle"],
   data() {
     return {
