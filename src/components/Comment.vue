@@ -4,7 +4,7 @@
       <div class="card-title">{{ getUsername }} - {{ getTimesAgo }}</div>
     </div>
     <div class="card-body text-secondary m-0 p-0">
-      <p class="card-text">
+      <p style="white-space: pre-line" class="card-text">
         {{ comment.comment }}
       </p>
     </div>

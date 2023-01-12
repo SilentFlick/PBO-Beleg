@@ -90,7 +90,7 @@ def get_posts_from_db():
 def get_posts_by_id_from_db(id):
     db = get_db()
     cursor = db.cursor()
-    statement = "select post_id, from_user, to_user,  title, content from posts where post_id = ?"
+    statement = "select post_id, from_user, to_user, p.faculty, title, content, created_at, name from posts p left join professor_lecturer l on from_user=pl_id where post_id = ?"
     cursor.execute(statement, [id])
     db.commit()
     r = [
