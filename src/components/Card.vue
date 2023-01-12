@@ -54,13 +54,12 @@
         <div v-if="isCommenting">
           <div v-if="isLogin" class="input-group mt-3">
             <textarea
-              id="comment"
+              :id="'comment-' + postID"
               type="text"
               class="form-control"
               placeholder="Write a comment..."
               aria-label="Write a comment..."
               aria-describedby="button-addon2"
-              @keyup.enter="commentHandle()"
             ></textarea>
             <button
               class="btn btn-outline-secondary"
@@ -151,32 +150,30 @@ export default {
       this.isCommenting = !this.isCommenting;
     },
     commentHandle() {
-      if ($("#comment").val() === "") {
-        alert("Comment is empty");
+      if (document.getElementById('comment-' + this.postID).value.length === 0) {
         return;
-      }
-      //get comment from input
-      this.comment = $("#comment").val();
-      //add comment string to comments array for rendering comment without refreshing page
-      this.updateComments();
-      const comment = {
-        post_id: this.postID,
-        comment: this.comment,
-      };
-      sendRequest(
-        "POST",
-        "comments",
-        JSON.stringify(comment),
+      } else {
+        //get comment from input
+        this.comment = document.getElementById('comment-' + this.postID).value;
+        //add comment string to comments array for rendering comment without refreshing page
+        this.updateComments();
+        const comment = {
+          post_id: this.postID,
+          comment: this.comment,
+        };
+        sendRequest(
+          "POST",
+          "comments",
+          JSON.stringify(comment),
 
-        (res) => {
-          console.log(res);
-        }
-      );
-      $("#comment").val("");
+          (res) => {
+            console.log(res);
+          }
+        );
+      document.getElementById('comment-' + this.postID).value = "";
+      }
     },
     async updateComments() {
-      this.trigger++;
-
       if (this.comments.length > 0) {
         this.comments[0].comments = JSON.stringify([
           ...this.getComments,
@@ -186,8 +183,7 @@ export default {
             created_at: new Date().toISOString().slice(0, 19).replace("T", " "),
           },
         ]);
-
-        return this.comments[0].comments;
+        await this.comments[0].comments;
       } else {
         this.comments[0] = {
           comments: JSON.stringify([
@@ -201,8 +197,9 @@ export default {
             },
           ]),
         };
-        return this.comments[0].comments;
+        await this.comments[0].comments;
       }
+      this.trigger++;
     },
   },
 
@@ -223,7 +220,6 @@ export default {
       if (this.comments.length === 0) {
         return [];
       }
-      console.log(JSON.parse(this.comments[0].comments));
       return JSON.parse(this.comments[0].comments);
     },
   },

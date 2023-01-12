@@ -31,7 +31,7 @@ export default {
   methods: {
     loginHandle() {
       this.isLogin =
-        document.cookie.valueOf("username").split("=")[1].length !== 0;
+        document.cookie.length !== 0;
     },
   },
   provide() {
