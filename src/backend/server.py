@@ -43,11 +43,11 @@ def insert_prof_to_db(name, faculty):
     return True
 
 
-def insert_post_to_db(from_user, to_user, title, content):
+def insert_post_to_db(from_user, to_user, faculty, title, content):
     db = get_db()
     cursor = db.cursor()
-    statement = "insert into posts values (null, ?, ?, ?, ?)"
-    cursor.execute(statement, [from_user, to_user, title, content])
+    statement = "insert into posts(post_id, from_user, to_user, faculty, title, content) values (null, ?, ?, ?, ?, ?)"
+    cursor.execute(statement, [from_user, to_user, faculty, title, content])
     db.commit()
     db.close()
     return True
@@ -121,3 +121,16 @@ def insert_comment_to_db(post_id, comment):
     db.commit()
     db.close()
     return True
+
+def get_prof_from_db():
+    db = get_db()
+    cursor = db.cursor()
+    statement = "select * from professor_lecturer"
+    cursor.execute(statement)
+    db.commit()
+    r = [
+        dict((cursor.description[i][0], value) for i, value in enumerate(row))
+        for row in cursor.fetchall()
+    ]
+    db.close()
+    return r if r else None

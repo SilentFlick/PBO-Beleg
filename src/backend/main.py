@@ -26,7 +26,8 @@ def insert_posts():
     to_user = data["to_user"]
     title = data["title"]
     content = data["content"]
-    result = server.insert_post_to_db(from_user, to_user, title, content)
+    faculty = data["faculty"]
+    result = server.insert_post_to_db(from_user, to_user, faculty, title, content)
     return jsonify(result)
 
 
@@ -62,6 +63,13 @@ def insert_comment():
     comment = data["comment"]
     result = server.insert_comment_to_db(post_id, comment)
     return jsonify(result)
+
+
+@app.route("/profs", methods=["GET"])
+def get_profs():
+    profs = server.get_prof_from_db()
+    return jsonify(profs)
+
 
 @app.route("/login", methods=["POST"])
 def login():
