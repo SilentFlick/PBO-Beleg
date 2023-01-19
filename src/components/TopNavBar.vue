@@ -1,26 +1,31 @@
 <template>
   <!-- Top NavBar -->
-  <header class="navbar navbar-expand topbar mb-4 shadow">
+  <header class="navbar">
     <nav class="d-flex justify-content-between align-items-center">
       <button class="btn" id="burgerMenu" @click="toggleSidebar">
-        <i class="bi bi-list"></i>
+        <i class="bi bi-list fa-lg"></i>
       </button>
       <a class="navbar-brand" style="color: white">HTW Shits Talk</a>
-      <form class="" role="search">
+      <form role="search">
         <Search />
       </form>
-
       <button
+        v-if="!isLogin"
         id="login-btn"
         type="button"
         class="btn btn-primary"
         data-bs-toggle="modal"
         data-bs-target="#login"
-        v-if="!isLogin"
       >
         Login
       </button>
-      <button type="button" class="btn btn-secondary" @click="logout" v-else>
+      <button
+        v-else
+        id="logout-btn"
+        type="button"
+        class="btn btn-secondary"
+        @click="logout"
+      >
         Logout
       </button>
     </nav>
@@ -29,6 +34,7 @@
 
 <script>
 import Search from "./Search.vue";
+
 export default {
   name: "TopNavBar",
   components: {
@@ -42,11 +48,11 @@ export default {
   },
   methods: {
     toggleSidebar() {
-      var sidebar = document.getElementById("sidebarLeft");
-      if (sidebar.style.display === "inline-flex") {
-        sidebar.style.display = "none";
+      const sidebar = document.getElementById("sidebarDropdown");
+      if (sidebar.style.display === "none") {
+        sidebar.style.display = "block";
       } else {
-        sidebar.style.display = "inline-flex";
+        sidebar.style.display = "none";
       }
     },
     logout() {
@@ -58,6 +64,14 @@ export default {
         document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
       }
       this.loginHandle();
+    },
+  },
+  watch: {
+    $route: function () {
+      document.getElementById("sidebarDropdown").style.display = "none";
+    },
+    $window: function () {
+      document.getElementById("sidebarDropdown").style.display = "none";
     },
   },
 };
@@ -86,7 +100,7 @@ nav {
 }
 
 button {
-  padding: 10px 30px;
+  padding: 10px 10px;
 }
 
 .form-control {
@@ -99,17 +113,14 @@ button {
   display: none;
 }
 
-@media screen and (max-width: 600px) {
-  #burgerMenu {
-    background-color: none;
-    display: block;
-  }
-}
-
 @media screen and (max-width: 900px) {
   #burgerMenu {
-    background-color: none;
     display: block;
+    color: white;
+    font-size: 30px;
+  }
+  .navbar-brand {
+    display: none;
   }
 }
 </style>

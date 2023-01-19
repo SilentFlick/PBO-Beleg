@@ -1,8 +1,8 @@
 <template>
-  <div class="container-fluid">
+  <div class="container">
     <h1>FAQ</h1>
 
-    <div class="accordion w-50 mx-auto" id="accordionPanelsStayOpenExample">
+    <div class="accordion mx-auto" id="accordionPanelsStayOpenExample">
       <div class="accordion-item">
         <h2 class="accordion-header" id="panelsStayOpen-headingOne">
           <button
@@ -98,3 +98,14 @@
     </div>
   </div>
 </template>
+
+<style>
+.accordion {
+  width: 50%;
+}
+@media screen and (max-width: 768px) {
+  .accordion {
+    width: 100%;
+  }
+}
+</style>

@@ -7,7 +7,9 @@
       aria-label="Search"
       v-model="query"
       @input="search"
+      id="search"
     />
+
     <div class="dropdown">
       <ul v-if="results.length > 0">
         <li
@@ -55,13 +57,16 @@ export default {
     },
     async clickHandle(event) {
       const post_id = event.currentTarget.value;
-      console.log(event.target.value);
       this.$router.push({
         path: `/view/${post_id}`,
       });
 
       this.results = [];
       this.query = "";
+    },
+    searchOpenHandle() {
+      const search = document.getElementById("search");
+      search.focus();
     },
   },
   created() {
@@ -73,6 +78,7 @@ export default {
       (item) =>
         item.title.includes(this.query) || item.content.includes(this.query)
     );
+    this.isLargeScreen();
   },
 };
 </script>
@@ -92,7 +98,6 @@ export default {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
-
 p {
   word-wrap: break-word;
   width: 450px;
@@ -124,5 +129,34 @@ p {
 
 .dropdown li:hover {
   background: #eee;
+}
+
+@media screen and (max-width: 900px) {
+  .form-control {
+    margin: auto;
+    border: 1px solid #ccc;
+    outline: none;
+
+    border-radius: 10px;
+    width: 100px;
+    height: 50px;
+    transition: all 0.5s;
+  }
+  .form-control:focus {
+    width: 200px;
+    height: 50px;
+  }
+  .dropdown {
+    transform: translateY(-10px);
+    left: 0%;
+    position: absolute;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    width: 100%;
+    overflow: hidden;
+    z-index: 1;
+  }
 }
 </style>

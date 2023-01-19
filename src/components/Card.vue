@@ -3,12 +3,12 @@
     <div class="card-header">
       <div class="row">
         <div
-          class="col-9"
+          class="col-lg-9 col-6"
           style="padding-right: 20px; border-right: 1px solid #ccc"
         >
           {{ getUsername }}
         </div>
-        <div class="col-3">{{ faculty }}</div>
+        <div class="col-lg-3 col-6">{{ faculty }}</div>
       </div>
     </div>
     <div class="card-body">
@@ -150,11 +150,13 @@ export default {
       this.isCommenting = !this.isCommenting;
     },
     commentHandle() {
-      if (document.getElementById('comment-' + this.postID).value.length === 0) {
+      if (
+        document.getElementById("comment-" + this.postID).value.length === 0
+      ) {
         return;
       } else {
         //get comment from input
-        this.comment = document.getElementById('comment-' + this.postID).value;
+        this.comment = document.getElementById("comment-" + this.postID).value;
         //add comment string to comments array for rendering comment without refreshing page
         this.updateComments();
         const comment = {
@@ -170,7 +172,7 @@ export default {
             console.log(res);
           }
         );
-      document.getElementById('comment-' + this.postID).value = "";
+        document.getElementById("comment-" + this.postID).value = "";
       }
     },
     async updateComments() {
@@ -231,6 +233,12 @@ export default {
   width: 50%;
   margin: 10px auto;
   min-height: 150px;
+}
+
+@media screen and (max-width: 900px) {
+  .card {
+    width: 100%;
+  }
 }
 
 .underline-text:hover {

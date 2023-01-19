@@ -3,8 +3,8 @@
     <div class="row">
       <!-- Side NavBar -->
       <TopNavBar />
-      <SideBarLeft class="sticky-top" />
-      <main class="col-10"><router-view /></main>
+      <SideBarLeft />
+      <main class="col-lg-10"><router-view /></main>
     </div>
   </div>
 </template>

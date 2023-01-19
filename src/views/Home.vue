@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+  <div class="container">
     <h1>Home</h1>
     <div
       v-if="posts.length === 0"
@@ -10,7 +10,7 @@
         style="width: 3rem; height: 3rem; margin-top: 20px"
       ></div>
     </div>
-    <div v-else>
+    <div v-else class="w-100">
       <Card
         v-for="{
           post_id,

@@ -1,10 +1,10 @@
 <template>
-  <div class="container w-75">
+  <div class="container">
     <!--Form to create a new post-->
+    <h1>Post</h1>
 
-    <div v-if="isLogin" class="form-control mx-auto w-75">
+    <div v-if="isLogin" class="form-control post">
       <!--Faculty & Professor input-->
-      <h1>Create new Post</h1>
       <div class="d-flex justify-content-between">
         <label class="form-label w-50 me-2"
           >Faculty
@@ -138,3 +138,22 @@ export default {
   },
 };
 </script>
+
+<style>
+.container {
+  width: 75%;
+}
+
+.post {
+  width: 50% !important;
+  margin: auto;
+}
+@media screen and (max-width: 900px) {
+  .container {
+    width: 100%;
+  }
+  .post {
+    width: 100% !important;
+  }
+}
+</style>
