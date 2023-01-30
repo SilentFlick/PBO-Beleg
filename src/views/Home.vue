@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <h1>Home</h1>
     <div
       v-if="posts.length === 0"
       class="container d-flex justify-content-center w-100"

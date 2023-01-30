@@ -1,8 +1,6 @@
 <template>
   <div class="container">
     <!--Form to create a new post-->
-    <h1>Post</h1>
-
     <div v-if="isLogin" class="form-control post">
       <!--Faculty & Professor input-->
       <div class="d-flex justify-content-between">

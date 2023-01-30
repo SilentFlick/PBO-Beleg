@@ -1,7 +1,5 @@
 <template>
   <div class="container">
-    <h1>FAQ</h1>
-
     <div class="accordion mx-auto" id="accordionPanelsStayOpenExample">
       <div class="accordion-item">
         <h2 class="accordion-header" id="panelsStayOpen-headingOne">
@@ -13,7 +11,7 @@
             aria-expanded="true"
             aria-controls="panelsStayOpen-collapseOne"
           >
-            What is HTW Shit Talks?
+            What is HTW Talk?
           </button>
         </h2>
         <div
@@ -22,13 +20,12 @@
           aria-labelledby="panelsStayOpen-headingOne"
         >
           <div class="accordion-body">
-            <strong>HTW Shit Talks </strong> is a platform for students at HTW
-            Dresden to share their experiences and opinions about the
-            university. The purpose of the website is to help professors and
-            lecturers improve the learning experience at the university, as well
-            as provide a way for students to communicate with professors and
-            lecturers. The platform is anonymous for students and is free to
-            use.
+            <strong>HTW Talk </strong> is a platform for students at HTW Dresden
+            to share their experiences and opinions about the university. The
+            purpose of the website is to help professors and lecturers improve
+            the learning experience at the university, as well as provide a way
+            for students to communicate with professors and lecturers. The
+            platform is anonymous for students and is free to use.
           </div>
         </div>
       </div>
@@ -51,10 +48,9 @@
           aria-labelledby="panelsStayOpen-headingTwo"
         >
           <div class="accordion-body">
-            To use <strong>HTW Shit Talks</strong> , students can log in with
-            their HTW account to access full features. These features include
-            the ability to write posts, like and comment on other posts, and
-            search for posts by title and content. <br />
+            To use <strong>HTW Talk</strong> , students can log in with their
+            HTW account to access full features. These features include the
+            ability to write posts, like and comment on other posts.<br />
 
             Please note that login is only used to authenticate real people and
             that data will not be shared with third parties or stored in the
@@ -83,7 +79,7 @@
         >
           <div class="accordion-body">
             If you have any problems or want to contribute to the development of
-            HTW Shit Talks, you can contact us at
+            HTW Talk, you can contact us at
             <a href="abc@xyz.com" class="text-decoration-none">abc@xyz.com</a>
             or visit our
             <a

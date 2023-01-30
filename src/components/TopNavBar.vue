@@ -5,7 +5,7 @@
       <button class="btn" id="burgerMenu" @click="toggleSidebar">
         <i class="bi bi-list fa-lg"></i>
       </button>
-      <a class="navbar-brand" style="color: white">HTW Shits Talk</a>
+      <a class="navbar-brand" style="color: white">HTW Talk</a>
       <form role="search">
         <Search />
       </form>
