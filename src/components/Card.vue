@@ -38,9 +38,6 @@
           role="group"
           aria-label="Basic example"
         >
-          <button type="button" class="btn btn-outline-secondary col-6">
-            Like
-          </button>
           <button
             @click="commentToggle"
             type="button"
