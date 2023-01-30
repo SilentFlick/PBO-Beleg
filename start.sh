@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -eo pipefail
+
 function detach {
     ("$@" &>/dev/null &)
 }
@@ -9,7 +11,8 @@ function xo {
     done
 }
 
-if ! ping -c 1 -n -i 0.2 rlux40.rz.htw-dresden.de &>/dev/null; then
+echo 'Check connection to HTW LDAP Server...'
+if ! timeout 0.5 ping -c 1 -n rlux40.rz.htw-dresden.de &>/dev/null; then
     echo "Cannot contact HTW LDAP Server. Please connect to HTW VPN if you want to login."
 fi
 nohup npm run dev >/dev/null 2>&1 &
