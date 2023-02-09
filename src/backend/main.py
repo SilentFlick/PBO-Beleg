@@ -1,11 +1,16 @@
+import json
+import os
+import re
+
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-import json
-import server
 
+import hashtable
+import server
 
 app = Flask(__name__)
 CORS(app)
+
 
 @app.route("/posts", methods=["GET"])
 def get_posts():
@@ -71,15 +76,31 @@ def get_profs():
     return jsonify(profs)
 
 
+@app.route("/logout", methods=["POST"])
+def logout():
+    data = json.loads(request.get_data(), strict=False)
+    ht.delete(data)
+    return jsonify(True)
+
+
 @app.route("/login", methods=["POST"])
 def login():
-    data = json.loads(request.get_data(), strict=False)    
+    data = json.loads(request.get_data(), strict=False)
     username = data["username"]
     password = data["password"]
-    result = server.authenticate(username, password)
-    return jsonify( result)
+    randomString = None
+    if server.check_prof_from_db(username) != None and password == "123":
+        randomString = "".join("%02x" % x for x in os.urandom(16))
+        ht.put(randomString)
+    elif re.findall(r"s\d{5}", username):
+        result = server.authenticate(username, password)
+        if result != None:
+            randomString = "".join("%02x" % x for x in os.urandom(16))
+            ht.put(randomString)
+    return jsonify(randomString)
 
 
 if __name__ == "__main__":
     server.create_db()
+    ht = hashtable.HashTable()
     app.run(host="0.0.0.0", port=8000, debug=False)

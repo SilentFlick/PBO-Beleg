@@ -34,6 +34,7 @@
 
 <script>
 import Search from "./Search.vue";
+import { sendRequest } from "../api/sendRequest";
 
 export default {
   name: "TopNavBar",
@@ -61,6 +62,9 @@ export default {
         const cookie = cookies[i];
         const eqPos = cookie.indexOf("=");
         const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        if(name.trim() === "login") {
+          sendRequest("POST", "logout", JSON.stringify(cookie.split("=")[1]));
+        }
         document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
       }
       this.loginHandle();
