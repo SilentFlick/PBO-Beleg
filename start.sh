@@ -27,4 +27,5 @@ backendPID=$(echo $!)
 printf 'To stop fronend run: kill -9 %d\n' "$frontendPID"
 printf 'To stop backend run: kill -9 %d\n' "$backendPID"
 
+sleep 1
 xo "http://localhost:8080"
