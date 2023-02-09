@@ -223,7 +223,7 @@ export default {
       this.trigger++;
     },
     shareHandle() {
-      const url = "http://localhost:8080/view/";
+      const url = new URL(window.location.href).origin + "/view/";
       navigator.clipboard.writeText(url + this.postID);
       $("#liveToast").toast("show");
       $("#liveToast").toast({ delay: 1000 });
