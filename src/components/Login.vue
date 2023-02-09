@@ -106,6 +106,7 @@ export default {
               "username=" +
               this.loginValue.username +
               ";SameSite=Strict;Secure";
+            document.cookie = "login=" + result + ";SameSite=Strict;Secure";
             this.$emit("isLogin", true);
           } else {
             document.getElementById("error").style.display = "inline-block";
