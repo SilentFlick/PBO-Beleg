@@ -181,6 +181,7 @@ export default {
         const comment = {
           post_id: this.postID,
           comment: this.comment,
+          hash: document.cookie.split(";").filter(s => s.includes("login"))[0].split("=")[1],
         };
         sendRequest(
           "POST",

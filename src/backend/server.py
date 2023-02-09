@@ -100,7 +100,8 @@ def get_posts_by_id_from_db(id):
     db.close()
     return r[0] if r else None
 
-def get_comments_from_db() :
+
+def get_comments_from_db():
     db = get_db()
     cursor = db.cursor()
     statement = "select post_id,json_group_array(json_object('comment_id',comment_id, 'comment',comment, 'created_at', created_at, 'from_user' , (select name from comments ci left join professor_lecturer on from_user=pl_id where ci.comment_id=co.comment_id ))) as comments from comments co group by post_id"
@@ -113,6 +114,7 @@ def get_comments_from_db() :
     db.close()
     return r if r else None
 
+
 def insert_comment_to_db(post_id, comment):
     db = get_db()
     cursor = db.cursor()
@@ -122,11 +124,26 @@ def insert_comment_to_db(post_id, comment):
     db.close()
     return True
 
+
 def get_prof_from_db():
     db = get_db()
     cursor = db.cursor()
     statement = "select * from professor_lecturer"
     cursor.execute(statement)
+    db.commit()
+    r = [
+        dict((cursor.description[i][0], value) for i, value in enumerate(row))
+        for row in cursor.fetchall()
+    ]
+    db.close()
+    return r if r else None
+
+
+def check_prof_from_db(prof_name):
+    db = get_db()
+    cursor = db.cursor()
+    statement = "select * from professor_lecturer where name = ?"
+    cursor.execute(statement, [prof_name])
     db.commit()
     r = [
         dict((cursor.description[i][0], value) for i, value in enumerate(row))

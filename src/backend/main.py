@@ -32,7 +32,9 @@ def insert_posts():
     title = data["title"]
     content = data["content"]
     faculty = data["faculty"]
-    result = server.insert_post_to_db(from_user, to_user, faculty, title, content)
+    result = None
+    if ht.get(hash):
+        result = server.insert_post_to_db(from_user, to_user, faculty, title, content)
     return jsonify(result)
 
 
@@ -55,18 +57,22 @@ def delete_post(id):
     result = server.delete_post_from_db(id)
     return jsonify(result)
 
+
 @app.route("/comments", methods=["GET"])
 def get_comments():
     comments = server.get_comments_from_db()
     return jsonify(comments)
 
+
 @app.route("/comments", methods=["POST"])
 def insert_comment():
     data = json.loads(request.data, strict=False)
-    print("==>",data)
     post_id = data["post_id"]
     comment = data["comment"]
-    result = server.insert_comment_to_db(post_id, comment)
+    hash = data["hash"]
+    result = None
+    if ht.get(hash):
+        result = server.insert_comment_to_db(post_id, comment)
     return jsonify(result)
 
 

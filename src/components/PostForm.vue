@@ -110,6 +110,7 @@ export default {
         faculty: this.faculty,
         to_user: this.professor,
         from_user: null,
+        hash: document.cookie.split(";").filter(s => s.includes("login"))[0].split("=")[1],
       };
       if (
         this.title === "" ||
