@@ -47,6 +47,15 @@
           >
             Comment
           </button>
+          <button
+            @click="shareHandle"
+            type="button"
+            class="btn btn-outline-secondary col-6"
+            data-bs-toggle="collapse"
+            aria-expanded="false"
+          >
+            Share
+          </button>
         </div>
         <div v-if="isCommenting">
           <div v-if="isLogin" class="input-group mt-3">
@@ -95,6 +104,19 @@
           />
         </div>
       </footer>
+    </div>
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+      <div
+        id="liveToast"
+        class="toast hide"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div class="toast-body bg-success text-white">
+          Share link copied to clipboard!
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -199,6 +221,12 @@ export default {
         await this.comments[0].comments;
       }
       this.trigger++;
+    },
+    shareHandle() {
+      const url = new URL(window.location.href).origin + "/view/";
+      navigator.clipboard.writeText(url + this.postID);
+      $("#liveToast").toast("show");
+      $("#liveToast").toast({ delay: 1000 });
     },
   },
 

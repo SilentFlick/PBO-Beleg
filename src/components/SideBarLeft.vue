@@ -3,7 +3,7 @@
     class="d-flex align-items-center sidebar-container sticky-top"
     id="sidebar-container"
   >
-    <ul class="nav nav-pills container-fluid" id="sidebarList">
+    <ul class="nav nav-pills container-fluid pt-3" id="sidebarList">
       <li>
         <router-link
           tag="li"
