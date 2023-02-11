@@ -85,8 +85,8 @@ def get_profs():
 @app.route("/logout", methods=["POST"])
 def logout():
     data = json.loads(request.get_data(), strict=False)
-    ht.delete(data)
-    return jsonify(True)
+    res = ht.delete(data)
+    return jsonify(res)
 
 
 @app.route("/login", methods=["POST"])

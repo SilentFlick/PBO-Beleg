@@ -21,4 +21,8 @@ class HashTable:
 
     def delete(self, key):
         index = self.hash_function(key)
-        self.table[index].remove(key)
+        try:
+            self.table[index].remove(key)
+            return True
+        except ValueError:
+            return False
