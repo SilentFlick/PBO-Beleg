@@ -125,11 +125,11 @@ def insert_comment_to_db(post_id, comment):
     return True
 
 
-def get_prof_from_db():
+def get_prof_from_db(faculty):
     db = get_db()
     cursor = db.cursor()
-    statement = "select * from professor_lecturer"
-    cursor.execute(statement)
+    statement = "select * from professor_lecturer where faculty = ?"
+    cursor.execute(statement, [faculty])
     db.commit()
     r = [
         dict((cursor.description[i][0], value) for i, value in enumerate(row))

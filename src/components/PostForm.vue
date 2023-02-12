@@ -6,7 +6,7 @@
       <div class="d-flex justify-content-between">
         <label class="form-label w-50 me-2"
           >Faculty
-          <select class="form-select" v-model="faculty" required>
+          <select @change="onChange($event)" class="form-select" v-model="faculty" required>
             <option
               v-for="option in faculty_options"
               :key="option.id"
@@ -68,7 +68,6 @@
 </template>
 
 <script>
-import { computed } from "@vue/runtime-core";
 import { sendRequest } from "../api/sendRequest";
 export default {
   name: "PostForm",
@@ -132,9 +131,9 @@ export default {
     },
   },
 
-  created() {
-    this.getProfessors();
-  },
+   // created() {
+   //   this.getProfessors();
+   // },
 };
 </script>
 
