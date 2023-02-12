@@ -94,11 +94,11 @@ export default {
     };
   },
   methods: {
-    getProfessors: async function () {
+    onChange: async function (event) {
       return (this.professor_options = await sendRequest(
-        "GET",
+        "POST",
         "profs",
-        null
+        JSON.stringify({faculty: event.target.value})
       ).then((res) => {
         return res;
       }));

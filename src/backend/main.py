@@ -76,9 +76,11 @@ def insert_comment():
     return jsonify(result)
 
 
-@app.route("/profs", methods=["GET"])
+@app.route("/profs", methods=["POST"])
 def get_profs():
-    profs = server.get_prof_from_db()
+    data = json.loads(request.data, strict=False)
+    faculty = data["faculty"]
+    profs = server.get_prof_from_db(faculty)
     return jsonify(profs)
 
 
