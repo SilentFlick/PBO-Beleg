@@ -16,6 +16,17 @@
           Main
         </router-link>
       </li>
+      <li v-if="data.pl_id">
+        <router-link
+          tag="li"
+          active-class="active text-white bg-dark"
+          class="nav-item nav-link text-dark"
+          to="/inbox"
+        >
+          <i class="bi bi-envelope"></i>
+          Inbox
+        </router-link>
+      </li>
       <li>
         <router-link
           active-class="active text-white bg-dark"
@@ -48,6 +59,17 @@
           <!-- Icon from https://icons.getbootstrap.com/ -->
           <i class="bi bi-house"></i>
           Main
+        </router-link>
+      </li>
+      <li v-if="data.pl_id">
+        <router-link
+          tag="li"
+          active-class="active text-white bg-dark"
+          class="nav-item nav-link text-dark"
+          to="/inbox"
+        >
+          <i class="bi bi-envelope"></i>
+          Inbox
         </router-link>
       </li>
       <li>
@@ -119,3 +141,14 @@
   }
 }
 </style>
+<script>
+ export default({
+   inject: ["getLoginData"],
+   data() {
+     return {
+       data: this.getLoginData
+     }
+   },
+ })
+</script>
+>

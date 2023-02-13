@@ -1,6 +1,6 @@
 # PBO-Beleg
 
-Dies ist eine Plattform für Kommunication und Erfahrungsaustausch, entwickelt mit VueJS und Python. Hinweis: Das Backend ist unvollständig und bietet nur einige Funktionen für das Frontend.
+Dies ist eine Plattform für Kommunikation und Erfahrungsaustausch, entwickelt mit VueJS und Python. Hinweis: Das Backend ist unvollständig und bietet nur einige Funktionen für das Frontend.
 
 ## Einrichtung
 
@@ -10,7 +10,8 @@ Um alle Abhängigkeiten zu installieren, sind `pip` und `npm` erforderlich. Stel
 - `npm`
 - `python`
 - `pip`
-  bereits installiert sind. Führen Sie diese Befehle aus, um Abhängigkeiten zu installieren.
+
+bereits installiert sind. Führen Sie diese Befehle aus, um Abhängigkeiten zu installieren.
 
 ```
 npm install
@@ -19,7 +20,7 @@ pip install --user -r requirements.txt
 
 ## Ausführung
 
-Unter Linux können Sie das Shell-Skript `start.sh` ausführen, unter MacOS/Windows müssen das Frontend und Backend manuell gestartet werden.
+Unter Linux können Sie das Shell-Skript `start.sh` ausführen, unter Mac OS/Windows müssen das Frontend und Backend manuell gestartet werden.
 
 ```
 npm run dev

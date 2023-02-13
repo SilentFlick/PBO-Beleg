@@ -1,7 +1,7 @@
 <template>
-  <div class="container">
+  <div class="container mt-2">
     <!--Form to create a new post-->
-    <div v-if="isLogin" class="form-control post">
+    <div v-if="data.isLogin" class="form-control post">
       <!--Faculty & Professor input-->
       <div class="d-flex justify-content-between">
         <label class="form-label w-50 me-2"
@@ -65,13 +65,52 @@
       </div>
     </div>
   </div>
+  <div class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 11; margin-top: 60px">
+    <div
+      id="errorToast"
+      class="toast hide"
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
+    >
+      <div class="toast-body bg-danger text-white">
+        Authetification failed. Please login again! If it is still not working, please contact the admin.
+      </div>
+    </div>
+  </div>
+  <div class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 11; margin-top: 60px">
+    <div
+      id="errorBlank"
+      class="toast hide"
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
+    >
+      <div class="toast-body bg-danger text-white">
+        Please input every field!
+      </div>
+    </div>
+  </div>
+  <div class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 11; margin-top: 60px">
+    <div
+      id="success"
+      class="toast hide"
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
+    >
+      <div class="toast-body bg-success text-white">
+        Post successfully!
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import { sendRequest } from "../api/sendRequest";
 export default {
   name: "PostForm",
-  inject: ["loginStatus"],
+  inject: ["getLoginData"],
   data() {
     return {
       title: "",
@@ -89,7 +128,7 @@ export default {
         { id: 8, faculty: "Wirtschaftsingenieurwesen" },
       ],
       professor_options: [],
-      isLogin: this.loginStatus,
+      data: this.getLoginData,
     };
   },
   methods: {
@@ -99,6 +138,7 @@ export default {
         "profs",
         JSON.stringify({faculty: event.target.value})
       ).then((res) => {
+        console.log(res);
         return res;
       }));
     },
@@ -108,8 +148,8 @@ export default {
         content: this.content,
         faculty: this.faculty,
         to_user: this.professor,
-        from_user: null,
-        hash: document.cookie.split(";").filter(s => s.includes("login"))[0].split("=")[1],
+        from_user: this.data.pl_id || null,
+        hash: this.data.hash,
       };
       if (
         this.title === "" ||
@@ -117,17 +157,26 @@ export default {
         this.faculty === "" ||
         this.to_user === ""
       ) {
-        alert("Please input every field");
+        $("#errorBlank").toast("show");
+        $("#errorBlank").toast({ delay: 1000 });
         return;
       }
-      sendRequest("POST", "post", JSON.stringify(data));
+      sendRequest("POST", "post", JSON.stringify(data)
+      ).then(res => {
+        $("#success").toast("show");
+        $("#success").toast({ delay: 10000 });
+      }
+      ).catch(error => {
+        $("#errorToast").toast("show");
+        $("#errorToast").toast({ delay: 10000 });
+      });
       this.title = "";
       this.content = "";
       this.faculty = "";
       this.to_user = "";
-      this.$router.push({
-        path: `/`,
-      });
+      // this.$router.push({
+      //   path: `/`,
+      // });
     },
   },
 

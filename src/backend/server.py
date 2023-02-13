@@ -115,11 +115,29 @@ def get_comments_from_db():
     return r if r else None
 
 
-def insert_comment_to_db(post_id, comment):
+def get_posts_and_comments_from_db(pl_id=None):
     db = get_db()
     cursor = db.cursor()
-    statement = "insert into comments(comment_id, post_id, from_user, comment) values (null, ?,null, ?)"
-    cursor.execute(statement, [post_id, comment])
+    statement = "select p.*, pl.name, com.comments from posts p left join professor_lecturer pl on p.from_user = pl.pl_id left join ( select post_id,json_group_array(json_object('comment_id',comment_id, 'comment',comment, 'created_at', created_at, 'from_user' , (select name from comments ci left join professor_lecturer on from_user=pl_id where ci.comment_id=co.comment_id ))) as comments from comments co group by co.post_id) as com on p.post_id=com.post_id "
+    if pl_id != None:
+        statement += "where to_user = ?"
+        cursor.execute(statement, [pl_id])
+    else:
+        cursor.execute(statement)
+    db.commit()
+    r = [
+        dict((cursor.description[i][0], value) for i, value in enumerate(row))
+        for row in cursor.fetchall()
+    ]
+    db.close()
+    return r if r else None
+
+
+def insert_comment_to_db(post_id, from_user, comment):
+    db = get_db()
+    cursor = db.cursor()
+    statement = "insert into comments(comment_id, post_id, from_user, comment) values (null, ?, ?, ?)"
+    cursor.execute(statement, [post_id, from_user, comment])
     db.commit()
     db.close()
     return True
@@ -142,7 +160,7 @@ def get_prof_from_db(faculty):
 def check_prof_from_db(prof_name):
     db = get_db()
     cursor = db.cursor()
-    statement = "select * from professor_lecturer where name = ?"
+    statement = "select pl_id from professor_lecturer where name = ?"
     cursor.execute(statement, [prof_name])
     db.commit()
     r = [
@@ -150,4 +168,4 @@ def check_prof_from_db(prof_name):
         for row in cursor.fetchall()
     ]
     db.close()
-    return r if r else None
+    return r[0].get("pl_id") if r else None
