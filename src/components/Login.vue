@@ -85,7 +85,7 @@
 import { sendRequest } from "../api/sendRequest";
 export default {
   name: "Login",
-  emits: ["isLogin"],
+  emits: ["loginData"],
   props: { msg: String },
   data() {
     return {
@@ -99,21 +99,20 @@ export default {
     loginHandle() {
       sendRequest("POST", "login", JSON.stringify(this.loginValue)).then(
         (result) => {
-          if (result !== null && result !== undefined) {
-            $("#login").modal("hide");
-            document.getElementById("error").style.display = "none";
-            document.cookie =
-              "username=" +
-              this.loginValue.username +
-              ";SameSite=Strict;Secure";
-            document.cookie = "login=" + result + ";SameSite=Strict;Secure";
-            this.$emit("isLogin", true);
-          } else {
-            document.getElementById("error").style.display = "inline-block";
-            this.$emit("isLogin", false);
-          }
+        $("#login").modal("hide");
+        let data = {
+          isLogin: true,
+          username: this.loginValue.username,
+          pl_id: result.pl_id,
+          hash: result.hash
+        };
+        this.$emit("loginData", data);
+
         }
-      );
+      ).catch(error => {
+        document.getElementById("error").style.display = "inline-block";
+        this.$emit("loginData", data);
+      });
     },
   },
 };

@@ -10,7 +10,7 @@
         <Search />
       </form>
       <button
-        v-if="!isLogin"
+        v-if="!data.isLogin"
         id="login-btn"
         type="button"
         class="btn btn-primary"
@@ -41,10 +41,11 @@ export default {
   components: {
     Search,
   },
-  inject: ["loginStatus", "loginHandle"],
+  inject: ["getLoginData", "resetLoginData"],
   data() {
     return {
-      isLogin: this.loginStatus,
+      data: this.getLoginData,
+
     };
   },
   methods: {
@@ -57,17 +58,8 @@ export default {
       }
     },
     logout() {
-      const cookies = document.cookie.split(";");
-      for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i];
-        const eqPos = cookie.indexOf("=");
-        const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-        if(name.trim() === "login") {
-          sendRequest("POST", "logout", JSON.stringify(cookie.split("=")[1]));
-        }
-        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
-      }
-      this.loginHandle();
+      sendRequest("POST", "logout", JSON.stringify(this.data.hash));
+      this.resetLoginData();
     },
   },
   watch: {
