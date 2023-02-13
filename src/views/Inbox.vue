@@ -7,6 +7,7 @@
       <div
         class="spinner-grow text-secondary"
         style="width: 3rem; height: 3rem; margin-top: 20px"
+        v-if="flag"
       ></div>
     </div>
     <div v-else class="w-100">
@@ -36,37 +37,47 @@
       />
     </div>
   </div>
-</template>
+  <div class="position-fixed top-10 start-50 translate-middle-x p-3" style="z-index: 11">
+      <div
+          id="success"
+          class="toast hide"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+      >
+          <div class="toast-body bg-info text-black">
+              The inbox is empty.
+          </div>
+      </div>
+  </div>
+</template>>
 
 <script>
 import Card from "../components/Card.vue";
 import { sendRequest } from "../api/sendRequest.js";
 
 export default {
-  name: "Home",
+  name: "Inbox",
 
   components: { Card },
-
+  inject: ["getLoginData"],
   data() {
     return {
       posts: [],
-      comments: [],
+      data: this.getLoginData,
+      flag: true,
     };
   },
 
   methods: {
     getPosts: async function () {
-      return (this.posts = await sendRequest("POST", "posts", JSON.stringify({pl_id:null})).then(
-        (res) => {
-          const autocompleteData = JSON.stringify(
-            res.map((r) => {
-              return { content: r.content, title: r.title, post_id: r.post_id };
-            })
-          );
-          localStorage.setItem("autocompleteData", autocompleteData);
-          return res;
-        }
-      ));
+      return (this.posts = await sendRequest("POST", "posts", JSON.stringify({pl_id:this.data.pl_id})
+      ).catch(err => {
+          this.flag = false;
+          $("#success").toast("show");
+          $("#success").toast({ delay: 1000 });
+      })
+      );
     },
   },
 

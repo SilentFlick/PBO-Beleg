@@ -58,7 +58,7 @@
           </button>
         </div>
         <div v-if="isCommenting">
-          <div v-if="isLogin" class="input-group mt-3">
+          <div v-if="data.isLogin" class="input-group mt-3">
             <textarea
               :id="'comment-' + postID"
               type="text"
@@ -119,6 +119,19 @@
       </div>
     </div>
   </div>
+  <div class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 11">
+    <div
+      id="errorToast2"
+      class="toast hide"
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
+    >
+      <div class="toast-body bg-danger text-white">
+        Authetification failed. Please login again! If it is still not working, please contact the admin.
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -129,23 +142,24 @@ import getRandomName from "../utils/getRandomName.js";
 export default {
   name: "Card",
   components: { Comment },
-  inject: ["loginStatus"],
+  inject: ["getLoginData"],
   props: {
     postID: Number,
-    username: String | null,
+    username: String || null,
     faculty: String,
     title: String,
     content: String,
     created_at: String,
-    comments: Array,
+    commentsData: String,
   },
   data() {
     return {
-      comment: "",
+      comments: this.commentsData || "",
+      comment: null,
       isExpanded: false,
       isCommenting: false,
-      isLogin: this.loginStatus,
       trigger: 0,
+      data: this.getLoginData,
     };
   },
   methods: {
@@ -177,49 +191,47 @@ export default {
         //get comment from input
         this.comment = document.getElementById("comment-" + this.postID).value;
         //add comment string to comments array for rendering comment without refreshing page
-        this.updateComments();
         const comment = {
           post_id: this.postID,
+          from_user: this.data.pl_id || null,
           comment: this.comment,
-          hash: document.cookie.split(";").filter(s => s.includes("login"))[0].split("=")[1],
+          hash: this.data.hash,
         };
         sendRequest(
           "POST",
           "comments",
           JSON.stringify(comment),
-
-          (res) => {
-            console.log(res);
-          }
-        );
+        ).then(res => {
+          this.updateComments();
+        }).catch(error => {
+          console.log("==> " + error);
+          $("#errorToast2").toast("show");
+          $("#errorToast2").toast({ delay: 10000 });
+        });
         document.getElementById("comment-" + this.postID).value = "";
       }
     },
-    async updateComments() {
+    updateComments() {
       if (this.comments.length > 0) {
-        this.comments[0].comments = JSON.stringify([
+        this.comments = JSON.stringify([
           ...this.getComments,
           {
             comment: this.comment,
-            from_user: null,
+            from_user: this.data.pl_id ? this.data.username : null,
             created_at: new Date().toISOString().slice(0, 19).replace("T", " "),
           },
         ]);
-        await this.comments[0].comments;
       } else {
-        this.comments[0] = {
-          comments: JSON.stringify([
+        this.comments = JSON.stringify([
             {
               comment: this.comment,
-              from_user: null,
+              from_user: this.data.pl_id ? this.data.username : null,
               created_at: new Date()
                 .toISOString()
                 .slice(0, 19)
                 .replace("T", " "),
-            },
-          ]),
-        };
-        await this.comments[0].comments;
+            }
+          ]);
       }
       this.trigger++;
     },
@@ -244,11 +256,10 @@ export default {
     },
     getComments() {
       this.trigger;
-
       if (this.comments.length === 0) {
         return [];
       }
-      return JSON.parse(this.comments[0].comments);
+      return JSON.parse(this.comments);
     },
   },
 };

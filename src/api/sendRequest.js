@@ -10,7 +10,8 @@ export const sendRequest = (requestType, requestURL, data) => {
       if (xhr.status === 200) {
         resolve(JSON.parse(xhr.responseText));
       } else {
-        console.log("request_error");
+        console.log("request_error " + xhr.status);
+        reject(xhr.status);
       }
     };
     xhr.open(requestType, baseURL + requestURL);

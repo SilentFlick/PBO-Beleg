@@ -6,7 +6,7 @@
     <section class="main-content-section">
       <div class="container"></div>
     </section>
-    <Login @isLogin="loginHandle" />
+    <Login @loginData="updateLoginData"/>
   </div>
 </template>
 
@@ -23,21 +23,24 @@ export default {
   },
   data() {
     return {
-      isLogin:
-        document.cookie.indexOf("username") !== -1 &&
-        document.cookie.valueOf("username").split("=")[1].length !== 0,
+      loginData: JSON.parse(localStorage.getItem('data')) || {},
     };
   },
   methods: {
-    loginHandle() {
-      this.isLogin =
-        document.cookie.length !== 0;
+    updateLoginData(data) {
+      console.log()
+      localStorage.setItem('data',JSON.stringify(data));
+      this.loginData = JSON.parse(localStorage.getItem('data'));
     },
+    resetLoginData() {
+      this.loginData = {};
+      localStorage.removeItem('data');
+    }
   },
   provide() {
     return {
-      loginStatus: computed(() => this.isLogin),
-      loginHandle: this.loginHandle,
+      getLoginData: computed(() => this.loginData),
+      resetLoginData: this.resetLoginData
     };
   },
 };
