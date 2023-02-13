@@ -44,7 +44,7 @@
           to="/faq"
         >
           <i class="bi bi-question-square"></i>
-          FAQ
+          &nbsp;FAQ
         </router-link>
       </li>
     </ul>
@@ -89,7 +89,7 @@
           to="/faq"
         >
           <i class="bi bi-question-square"></i>
-          FAQ
+          &nbsp;FAQ
         </router-link>
       </li>
     </ul>
