@@ -1,0 +1,48 @@
+#+title: PBO-Beleg
+#+author: Tan Minh Ho, Quang Duy Pham, Nguyen Thanh Binh
+
+* Einrichtung
+
++ Dies ist eine Plattform für Kommunikation und Erfahrungsaustausch, entwickelt mit VueJS und Python. Hinweis: Das Backend ist unvollständig und bietet nur einige Funktionen für das Frontend.
+
++ Um alle Abhängigkeiten zu installieren, sind =pip= und =npm= erforderlich. Stellen Sie daher sicher, dass
+
+- =nodejs=
+- =npm=
+- =python=
+- =pip=
+
+bereits installiert sind. Führen Sie diese Befehle aus, um Abhängigkeiten zu installieren.
+
+#+begin_src shell
+npm install
+pip install --user -r requirements.txt
+#+end_src
+
+* Ausführung
+
++ Unter Linux können Sie das Shell-Skript =start.sh= ausführen, unter Mac OS/Windows müssen das Frontend und Backend manuell gestartet werden.
+
+#+begin_src shell
+npm run dev
+#Start Server
+cd ./src/backend/
+if [ -f pbo ]; then
+rm pbo
+fi
+python3 main.py
+#+end_src
+
++ Die Webseite befindet sich auf =localhost:8080=.
+* API
++ Backend bietet mehrere Routen zum Erstellen, Lesen, Aktualisieren und Löschen von Daten (Posts, Kommentar) aus der Datenbank.
++ Er umfasst auch Authentifizierungs- und Autorisierungsfunktionen, die einen einfachen hashbasierten Ansatz verwenden.
++ Die =hashtable.py=, die eine Hash-Tabelle implementiert, wird zum Speichern und Abrufen der Schlüssel verwendet.
++ Die API umfasst auch Eingabevalidierung und Autorisierungsprüfungen auf der Grundlage eines einfachen hashbasierten Ansatzes, der nicht für den Produktionseinsatz empfohlen wird, aber für Demonstrationszwecke nützlich ist.
++ Um ein Post oder Kommentar zu erstellen, ist ein Schlüssel erforderlich. Die API =login= gibt diesen Schlüssel nach erfolgreicher Anmeldung zurück.
++ Hier ist eine Übersicht über die verfügbaren Routen und ihre Funktionen:
+  + =/posts=: Eine GET-Anfrage gibt alle Posts und Kommentare aus der Datenbank zurück. Bei einer POST-Anfrage wird die ID des Professors als Parameter verwendet, und alle Posts und Kommentare für diesen Professor werden zurückgegeben.
+  + =/post=: unterstützt die POST-Methode und fügt neues Post in die Datenbank.
+  + =/profs=: Diese Route unterstützt die POST-Methode. Sie nimmt den Namen der Fakultät als Eingabe und gibt eine Liste der Professoren mit ID zurück, die zu dieser Fakultät gehören.
+  + =/login=: Diese Route unterstützt die POST-Methode. Sie nimmt einen Benutzernamen und ein Passwort als Eingabe, authentifiziert den Benutzer und gibt einen Hash zurück, der für nachfolgende Anfragen verwendet werden kann.
+  + =/logout=: Diese Route unterstützt die POST-Methode. Sie nimmt einen Hash als Eingabe und löscht das entsprechende Token aus der Hash-Tabelle, wodurch der Benutzer effektiv abgemeldet wird.
