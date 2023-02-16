@@ -39,8 +39,8 @@
 </template>
 
 <script>
-import Card from "../components/Card.vue";
-import { sendRequest } from "../api/sendRequest.js";
+import Card from "@/components/Card.vue";
+import { sendRequest } from "@/api/sendRequest.js";
 
 export default {
   name: "Home",
@@ -56,17 +56,19 @@ export default {
 
   methods: {
     getPosts: async function () {
-      return (this.posts = await sendRequest("POST", "posts", JSON.stringify({pl_id:null})).then(
-        (res) => {
-          const autocompleteData = JSON.stringify(
-            res.map((r) => {
-              return { content: r.content, title: r.title, post_id: r.post_id };
-            })
-          );
-          localStorage.setItem("autocompleteData", autocompleteData);
-          return res;
-        }
-      ));
+      return (this.posts = await sendRequest(
+        "POST",
+        "posts",
+        JSON.stringify({ pl_id: null })
+      ).then((res) => {
+        const autocompleteData = JSON.stringify(
+          res.map((r) => {
+            return { content: r.content, title: r.title, post_id: r.post_id };
+          })
+        );
+        localStorage.setItem("autocompleteData", autocompleteData);
+        return res;
+      }));
     },
   },
 

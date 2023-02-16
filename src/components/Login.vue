@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import { sendRequest } from "../api/sendRequest";
+import { sendRequest } from "@/api/sendRequest";
 export default {
   name: "Login",
   emits: ["loginData"],
@@ -97,22 +97,21 @@ export default {
   },
   methods: {
     loginHandle() {
-      sendRequest("POST", "login", JSON.stringify(this.loginValue)).then(
-        (result) => {
-        $("#login").modal("hide");
-        let data = {
-          isLogin: true,
-          username: this.loginValue.username,
-          pl_id: result.pl_id,
-          hash: result.hash
-        };
-        this.$emit("loginData", data);
-
-        }
-      ).catch(error => {
-        document.getElementById("error").style.display = "inline-block";
-        this.$emit("loginData", data);
-      });
+      sendRequest("POST", "login", JSON.stringify(this.loginValue))
+        .then((result) => {
+          $("#login").modal("hide");
+          let data = {
+            isLogin: true,
+            username: this.loginValue.username,
+            pl_id: result.pl_id,
+            hash: result.hash,
+          };
+          this.$emit("loginData", data);
+        })
+        .catch((error) => {
+          document.getElementById("error").style.display = "inline-block";
+          this.$emit("loginData", data);
+        });
     },
   },
 };

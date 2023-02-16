@@ -11,8 +11,8 @@
 
 <script>
 // @ is an alias to /src
-import TopNavBar from "./TopNavBar.vue";
-import SideBarLeft from "./SideBarLeft.vue";
+import TopNavBar from "@/components/TopNavBar.vue";
+import SideBarLeft from "@/components/SideBarLeft.vue";
 
 export default {
   name: "HomeView",

@@ -6,7 +6,12 @@
       <div class="d-flex justify-content-between">
         <label class="form-label w-50 me-2"
           >Faculty
-          <select @change="onChange($event)" class="form-select" v-model="faculty" required>
+          <select
+            @change="onChange($event)"
+            class="form-select"
+            v-model="faculty"
+            required
+          >
             <option
               v-for="option in faculty_options"
               :key="option.id"
@@ -65,7 +70,10 @@
       </div>
     </div>
   </div>
-  <div class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 11; margin-top: 60px">
+  <div
+    class="position-fixed top-0 start-50 translate-middle-x p-3"
+    style="z-index: 11; margin-top: 60px"
+  >
     <div
       id="errorToast"
       class="toast hide"
@@ -74,11 +82,15 @@
       aria-atomic="true"
     >
       <div class="toast-body bg-danger text-white">
-        Authetification failed. Please login again! If it is still not working, please contact the admin.
+        Authetification failed. Please login again! If it is still not working,
+        please contact the admin.
       </div>
     </div>
   </div>
-  <div class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 11; margin-top: 60px">
+  <div
+    class="position-fixed top-0 start-50 translate-middle-x p-3"
+    style="z-index: 11; margin-top: 60px"
+  >
     <div
       id="errorBlank"
       class="toast hide"
@@ -91,7 +103,10 @@
       </div>
     </div>
   </div>
-  <div class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 11; margin-top: 60px">
+  <div
+    class="position-fixed top-0 start-50 translate-middle-x p-3"
+    style="z-index: 11; margin-top: 60px"
+  >
     <div
       id="success"
       class="toast hide"
@@ -99,15 +114,13 @@
       aria-live="assertive"
       aria-atomic="true"
     >
-      <div class="toast-body bg-success text-white">
-        Post successfully!
-      </div>
+      <div class="toast-body bg-success text-white">Post successfully!</div>
     </div>
   </div>
 </template>
 
 <script>
-import { sendRequest } from "../api/sendRequest";
+import { sendRequest } from "@/api/sendRequest";
 export default {
   name: "PostForm",
   inject: ["getLoginData"],
@@ -136,7 +149,7 @@ export default {
       return (this.professor_options = await sendRequest(
         "POST",
         "profs",
-        JSON.stringify({faculty: event.target.value})
+        JSON.stringify({ faculty: event.target.value })
       ).then((res) => {
         console.log(res);
         return res;
@@ -161,15 +174,15 @@ export default {
         $("#errorBlank").toast({ delay: 1000 });
         return;
       }
-      sendRequest("POST", "post", JSON.stringify(data)
-      ).then(res => {
-        $("#success").toast("show");
-        $("#success").toast({ delay: 10000 });
-      }
-      ).catch(error => {
-        $("#errorToast").toast("show");
-        $("#errorToast").toast({ delay: 10000 });
-      });
+      sendRequest("POST", "post", JSON.stringify(data))
+        .then((res) => {
+          $("#success").toast("show");
+          $("#success").toast({ delay: 10000 });
+        })
+        .catch((error) => {
+          $("#errorToast").toast("show");
+          $("#errorToast").toast({ delay: 10000 });
+        });
       this.title = "";
       this.content = "";
       this.faculty = "";
@@ -180,9 +193,9 @@ export default {
     },
   },
 
-   // created() {
-   //   this.getProfessors();
-   // },
+  // created() {
+  //   this.getProfessors();
+  // },
 };
 </script>
 

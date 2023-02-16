@@ -119,7 +119,10 @@
       </div>
     </div>
   </div>
-  <div class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 11">
+  <div
+    class="position-fixed top-0 start-50 translate-middle-x p-3"
+    style="z-index: 11"
+  >
     <div
       id="errorToast2"
       class="toast hide"
@@ -128,17 +131,18 @@
       aria-atomic="true"
     >
       <div class="toast-body bg-danger text-white">
-        Authetification failed. Please login again! If it is still not working, please contact the admin.
+        Authetification failed. Please login again! If it is still not working,
+        please contact the admin.
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Comment from "./Comment.vue";
-import { sendRequest } from "../api/sendRequest.js";
-import getTimesAgo from "../utils/getTimesAgo.js";
-import getRandomName from "../utils/getRandomName.js";
+import Comment from "@/components/Comment.vue";
+import { sendRequest } from "@/api/sendRequest.js";
+import getTimesAgo from "@/utils/getTimesAgo.js";
+import getRandomName from "@/utils/getRandomName.js";
 export default {
   name: "Card",
   components: { Comment },
@@ -197,17 +201,15 @@ export default {
           comment: this.comment,
           hash: this.data.hash,
         };
-        sendRequest(
-          "POST",
-          "comments",
-          JSON.stringify(comment),
-        ).then(res => {
-          this.updateComments();
-        }).catch(error => {
-          console.log("==> " + error);
-          $("#errorToast2").toast("show");
-          $("#errorToast2").toast({ delay: 10000 });
-        });
+        sendRequest("POST", "comments", JSON.stringify(comment))
+          .then((res) => {
+            this.updateComments();
+          })
+          .catch((error) => {
+            console.log("==> " + error);
+            $("#errorToast2").toast("show");
+            $("#errorToast2").toast({ delay: 10000 });
+          });
         document.getElementById("comment-" + this.postID).value = "";
       }
     },
@@ -223,15 +225,12 @@ export default {
         ]);
       } else {
         this.comments = JSON.stringify([
-            {
-              comment: this.comment,
-              from_user: this.data.pl_id ? this.data.username : null,
-              created_at: new Date()
-                .toISOString()
-                .slice(0, 19)
-                .replace("T", " "),
-            }
-          ]);
+          {
+            comment: this.comment,
+            from_user: this.data.pl_id ? this.data.username : null,
+            created_at: new Date().toISOString().slice(0, 19).replace("T", " "),
+          },
+        ]);
       }
       this.trigger++;
     },

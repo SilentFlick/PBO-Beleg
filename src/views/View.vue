@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import Card from "../components/Card.vue";
-import { sendRequest } from "../api/sendRequest";
+import Card from "@/components/Card.vue";
+import { sendRequest } from "@/api/sendRequest";
 export default {
   name: "View",
   components: {

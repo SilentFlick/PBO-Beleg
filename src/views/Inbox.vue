@@ -37,24 +37,26 @@
       />
     </div>
   </div>
-  <div class="position-fixed top-10 start-50 translate-middle-x p-3" style="z-index: 11">
-      <div
-          id="success"
-          class="toast hide"
-          role="alert"
-          aria-live="assertive"
-          aria-atomic="true"
-      >
-          <div class="toast-body bg-info text-black">
-              The inbox is empty.
-          </div>
-      </div>
+  <div
+    class="position-fixed top-10 start-50 translate-middle-x p-3"
+    style="z-index: 11"
+  >
+    <div
+      id="success"
+      class="toast hide"
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
+    >
+      <div class="toast-body bg-info text-black">The inbox is empty.</div>
+    </div>
   </div>
-</template>>
+</template>
+>
 
 <script>
-import Card from "../components/Card.vue";
-import { sendRequest } from "../api/sendRequest.js";
+import Card from "@/components/Card.vue";
+import { sendRequest } from "@/api/sendRequest.js";
 
 export default {
   name: "Inbox",
@@ -71,13 +73,15 @@ export default {
 
   methods: {
     getPosts: async function () {
-      return (this.posts = await sendRequest("POST", "posts", JSON.stringify({pl_id:this.data.pl_id})
-      ).catch(err => {
-          this.flag = false;
-          $("#success").toast("show");
-          $("#success").toast({ delay: 1000 });
-      })
-      );
+      return (this.posts = await sendRequest(
+        "POST",
+        "posts",
+        JSON.stringify({ pl_id: this.data.pl_id })
+      ).catch((err) => {
+        this.flag = false;
+        $("#success").toast("show");
+        $("#success").toast({ delay: 1000 });
+      }));
     },
   },
 

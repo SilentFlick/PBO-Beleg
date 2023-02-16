@@ -33,8 +33,8 @@
 </template>
 
 <script>
-import Search from "./Search.vue";
-import { sendRequest } from "../api/sendRequest";
+import Search from "@/components/Search.vue";
+import { sendRequest } from "@/api/sendRequest";
 
 export default {
   name: "TopNavBar",
@@ -45,7 +45,6 @@ export default {
   data() {
     return {
       data: this.getLoginData,
-
     };
   },
   methods: {

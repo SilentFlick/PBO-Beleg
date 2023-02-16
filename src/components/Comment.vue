@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import getTimesAgo from "../utils/getTimesAgo.js";
-import getRandomName from "../utils/getRandomName.js";
+import getTimesAgo from "@/utils/getTimesAgo.js";
+import getRandomName from "@/utils/getRandomName.js";
 
 export default {
   name: "Comment",
